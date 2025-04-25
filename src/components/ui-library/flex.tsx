@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 import { cn } from "@/lib/utils";
 import { VariantProps, cva } from "class-variance-authority";
@@ -53,32 +54,16 @@ const flexVariants = cva("flex", {
   },
 });
 
-export interface FlexProps
-  extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof flexVariants> {
+export interface FlexProps extends React.HTMLAttributes<HTMLDivElement>, VariantProps<typeof flexVariants> {
   as?: React.ElementType;
   animate?: boolean;
   motionProps?: HTMLMotionProps<"div">;
 }
 
 export const Flex = React.forwardRef<HTMLDivElement, FlexProps>(
-  (
-    {
-      className,
-      direction,
-      align,
-      justify,
-      wrap,
-      gap,
-      as: Component = "div",
-      animate = false,
-      motionProps,
-      ...props
-    },
-    ref
-  ) => {
+  ({ className, direction, align, justify, wrap, gap, as: Component = "div", animate = false, motionProps, ...props }, ref) => {
     const Comp = animate ? motion[Component as keyof typeof motion] || motion.div : Component;
-    
+
     const flexProps = {
       className: cn(flexVariants({ direction, align, justify, wrap, gap }), className),
       ref,

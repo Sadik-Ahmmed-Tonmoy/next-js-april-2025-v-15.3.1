@@ -43,21 +43,31 @@ const headingVariants = cva("font-bold leading-tight tracking-tight", {
 });
 
 export interface HeadingProps
-  extends React.HTMLAttributes<HTMLHeadingElement>,
+  extends Omit<React.HTMLAttributes<HTMLHeadingElement>, "color">,
     VariantProps<typeof headingVariants> {
-  as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  as?: "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
   animate?: boolean;
   motionProps?: HTMLMotionProps<"h1" | "h2" | "h3" | "h4" | "h5" | "h6">;
 }
 
 export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
   (
-    { className, size, weight, align, color, as, animate = false, motionProps, ...props },
+    {
+      className,
+      size,
+      weight,
+      align,
+      color,
+      as,
+      animate = false,
+      motionProps,
+      ...props
+    },
     ref
   ) => {
     const Component = as || (size as React.ElementType) || "h1";
     const Comp = animate ? motion[Component as keyof typeof motion] : Component;
-    
+
     const headingProps = {
       className: cn(headingVariants({ size, weight, align, color }), className),
       ref,
@@ -120,7 +130,7 @@ const textVariants = cva("", {
 });
 
 export interface TextProps
-  extends React.HTMLAttributes<HTMLParagraphElement>,
+  extends Omit<React.HTMLAttributes<HTMLParagraphElement>, "color">,
     VariantProps<typeof textVariants> {
   as?: React.ElementType;
   animate?: boolean;
@@ -143,10 +153,15 @@ export const Text = React.forwardRef<HTMLParagraphElement, TextProps>(
     },
     ref
   ) => {
-    const Comp = animate ? motion[Component as keyof typeof motion] || motion.p : Component;
-    
+    const Comp = animate
+      ? motion[Component as keyof typeof motion] || motion.p
+      : Component;
+
     const textProps = {
-      className: cn(textVariants({ size, weight, align, color, lineHeight }), className),
+      className: cn(
+        textVariants({ size, weight, align, color, lineHeight }),
+        className
+      ),
       ref,
       ...props,
       ...(animate ? motionProps : {}),
