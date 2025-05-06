@@ -61,7 +61,7 @@ const boxVariants = cva("", {
     },
   },
   defaultVariants: {
-    padding: "md",
+    padding: "none",
     margin: "none",
     rounded: "md",
     shadow: "none",
